@@ -1,6 +1,11 @@
-﻿namespace AgendaApi.Data.Repository.Interfaces
+﻿using AgendaApi.Entities;
+
+namespace AgendaApi.Data.Repository.Interfaces
 {
-    public class IContactRepository
+    public interface IContactRepository
     {
+        public Contact GetById(int id);
+        public List<Contact> GetAllContactsByUserId(int userId);
+
     }
 }
