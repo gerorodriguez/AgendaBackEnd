@@ -1,6 +1,9 @@
-﻿namespace AgendaApi.Data.Repository.Interfaces
+﻿using AgendaApi.DTOs;
+
+namespace AgendaApi.Data.Repository.Interfaces
 {
-    public class IUserRepository
+    public interface IUserRepository
     {
+        public void CreateUser(UserForCreationDTO userDTO);
     }
 }
