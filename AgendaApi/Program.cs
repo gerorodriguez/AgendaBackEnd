@@ -1,6 +1,7 @@
 using AgendaApi.Data;
 using AgendaApi.Data.Repository;
 using AgendaApi.Data.Repository.Implementations;
+using AgendaApi.Data.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,8 +16,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AgendaContext>(dbContextOptions => dbContextOptions.UseSqlite(builder.Configuration["ConnectionStrings:AgendaDBConnectionString"]));
 
 #region
-builder.Services.AddSingleton<UserRepository>();
-builder.Services.AddSingleton<ContactRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IContactRepository, ContactRepository>();
 #endregion
 
 var app = builder.Build();
