@@ -1,3 +1,8 @@
+using AgendaApi.Data;
+using AgendaApi.Data.Repository;
+using AgendaApi.Data.Repository.Implementations;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +11,13 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContext<AgendaContext>(dbContextOptions => dbContextOptions.UseSqlite(builder.Configuration["ConnectionStrings:AgendaDBConnectionString"]));
+
+#region
+builder.Services.AddSingleton<UserRepository>();
+builder.Services.AddSingleton<ContactRepository>();
+#endregion
 
 var app = builder.Build();
 
