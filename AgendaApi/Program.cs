@@ -21,6 +21,8 @@ builder.Services.AddScoped<IContactRepository, ContactRepository>();
 
 #endregion
 
+
+
 var app = builder.Build();
 
 
@@ -32,6 +34,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowOrigin");
 
 app.UseAuthorization();
 
