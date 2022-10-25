@@ -21,6 +21,17 @@ builder.Services.AddScoped<IContactRepository, ContactRepository>();
 
 #endregion
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        name: "AllowOrigin",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+});
 
 
 var app = builder.Build();
