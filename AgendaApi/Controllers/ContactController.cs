@@ -1,5 +1,6 @@
 ﻿using AgendaApi.Data.Repository.Interfaces;
 using AgendaApi.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace AgendaApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ContactController : ControllerBase
     {
         private readonly IContactRepository _contactRepository;

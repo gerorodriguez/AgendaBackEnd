@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace AgendaApi.DTOs
+﻿namespace AgendaApi.Models.DTOs
 {
-    public class UserForCreationDTO
+    public class UserForCreationDto
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
