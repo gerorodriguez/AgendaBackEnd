@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using AgendaApi.Entities;
 using AgendaApi.Data.Repository.Interfaces;
-using AgendaApi.DTOs;
+using AgendaApi.Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AgendaApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
 
@@ -18,8 +20,8 @@ namespace AgendaApi.Controllers
         }
 
         [HttpPost]
-        
-        public IActionResult CreateUser(UserForCreationDTO dto)
+        [AllowAnonymous]
+        public IActionResult CreateUser(UserForCreationDto dto)
         {
             try
             {
@@ -29,7 +31,7 @@ namespace AgendaApi.Controllers
             catch(Exception ex)
             {
 
-                return BadRequest( ex.Message);
+                return BadRequest(ex.Message);
             }
 
             return Created("Created", dto);
