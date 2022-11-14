@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using AgendaApi.Data.Repository.Interfaces;
 using AgendaApi.Models;
+using AgendaApi.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,7 +45,7 @@ namespace AgendaApi.Controllers
 
 
         [HttpPost]
-        public IActionResult CreateContact(CreateAndUpdateContact createContactDto)
+        public IActionResult CreateContact(CreateContactDto createContactDto)
         {
             try
             {
@@ -58,7 +59,7 @@ namespace AgendaApi.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateContact(CreateAndUpdateContact dto)
+        public IActionResult UpdateContact(UpdateContactDto dto)
         {
             try
             {

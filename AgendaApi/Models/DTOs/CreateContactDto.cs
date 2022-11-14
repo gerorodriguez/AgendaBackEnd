@@ -1,20 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AgendaApi.Entities;
 
-namespace AgendaApi.Models
+namespace AgendaApi.Models.DTOs
 {
-    public class CreateAndUpdateContact
+    public class CreateContactDto
     {
         [Required]
-        
+
         public string Name { get; set; }
         public int? CelularNumber { get; set; }
-
-        public int? TelephoneNumber  { get; set; }
+        public int? TelephoneNumber { get; set; }
 
         public string Description = string.Empty;
-
-        public User? User;
 
     }
 }
