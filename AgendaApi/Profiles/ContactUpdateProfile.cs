@@ -8,7 +8,8 @@ namespace AgendaApi.Profiles
     {
         public ContactUpdateProfile()
         {
-           CreateMap<Contact, UpdateContactDto>();
+            CreateMap<Contact, UpdateContactDto>();
+            CreateMap<UpdateContactDto, Contact>();
         }
     }
 }

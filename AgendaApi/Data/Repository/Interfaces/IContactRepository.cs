@@ -10,7 +10,7 @@ namespace AgendaApi.Data.Repository.Interfaces
         public List<Contact> GetAllContactsByUserId(int userId);
 
         public List<Contact> FindAllByUser(int userId);
-        public void Create(CreateContactDto dto);
+        public void Create(CreateContactDto dto, int userId);
         public void Update(UpdateContactDto dto);
         public void Delete(int id);
 

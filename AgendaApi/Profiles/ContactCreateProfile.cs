@@ -9,6 +9,7 @@ namespace AgendaApi.Profiles
         public ContactCreateProfile()
         {
             CreateMap<Contact, CreateContactDto>();
+            CreateMap<CreateContactDto, Contact>();
         }
 
     }

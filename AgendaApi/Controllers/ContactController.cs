@@ -9,7 +9,7 @@ namespace AgendaApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class ContactController : ControllerBase
     {
         private readonly IContactRepository _contactRepository;
@@ -47,9 +47,11 @@ namespace AgendaApi.Controllers
         [HttpPost]
         public IActionResult CreateContact(CreateContactDto createContactDto)
         {
+            var currentUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+           
             try
             {
-                _contactRepository.Create(createContactDto);
+                _contactRepository.Create(createContactDto,currentUserId);
             }
             catch (Exception ex)
             {

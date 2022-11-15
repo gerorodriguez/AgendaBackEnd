@@ -12,7 +12,7 @@ public class Contact
     public long CellPhoneNumber { get; set; }
     public long? TelephoneNumber { get; set; }
     public string? Description { get; set; } = String.Empty;
-    [ForeignKey("UserId")]
     public User User { get; set; }
+    [ForeignKey("UserId")]
     public int UserId { get; set; }
 }

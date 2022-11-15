@@ -32,19 +32,24 @@ namespace AgendaApi.Data.Repository.Implementations
             return _context.Contacts.Where(c => c.UserId == userId).ToList();
         }
 
-        public void Create(CreateContactDto dto)
+        public void Create(CreateContactDto dto, int userId)
         {
-            _context.Contacts.Add(_mapper.Map<Contact>(dto));
+            var c = _mapper.Map<Contact>(dto);
+            c.UserId = userId;
+            _context.Contacts.Add(c);
+            _context.SaveChanges();
         }
 
         public void Update(UpdateContactDto dto)
         {
             _context.Contacts.Update(_mapper.Map<Contact>(dto));
+            _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
             _context.Contacts.Remove(_context.Contacts.Single(c => c.Id == id));
+            _context.SaveChanges();
         }
     }
     
