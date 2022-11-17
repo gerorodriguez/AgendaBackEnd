@@ -9,7 +9,7 @@ namespace AgendaApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class ContactController : ControllerBase
     {
         private readonly IContactRepository _contactRepository;
