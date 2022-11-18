@@ -1,4 +1,6 @@
 ﻿using AgendaApi.Entities;
+using AgendaApi.Models;
+using AgendaApi.Models.DTOs;
 
 namespace AgendaApi.Data.Repository.Interfaces
 {
@@ -8,6 +10,9 @@ namespace AgendaApi.Data.Repository.Interfaces
         public List<Contact> GetAllContactsByUserId(int userId);
 
         public List<Contact> FindAllByUser(int userId);
+        public void Create(CreateContactDto dto, int userId);
+        public void Update(UpdateContactDto dto);
+        public void Delete(int id);
 
     }
 }
