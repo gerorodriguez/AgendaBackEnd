@@ -74,18 +74,24 @@ namespace AgendaApi.Controllers
             return NoContent();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id:int}")]
         public IActionResult DeleteContactById (int id)
         {
             try
             {
+                var contactToDelete =  _contactRepository.GetById(id);
+
+                if (contactToDelete == null)
+                {
+                    return NotFound($"Contact with Id = {id} not found");
+                }
                 _contactRepository.Delete(id);
+                return Ok("contact deleted");
             }
             catch(Exception ex)
             {
                 return BadRequest(ex);
             }
-            return Ok();
         }
 
 
