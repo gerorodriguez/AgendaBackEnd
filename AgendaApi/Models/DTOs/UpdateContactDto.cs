@@ -9,11 +9,9 @@ namespace AgendaApi.Models
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public int? CelularNumber { get; set; }
-
-        public int? TelephoneNumber { get; set; }
-
-        public string Description = string.Empty;
+        public long? CellPhoneNumber { get; set; }
+        public long? TelephoneNumber { get; set; }
+        public string? Description { get; set; }
 
 
     }
