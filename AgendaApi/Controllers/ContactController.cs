@@ -61,7 +61,7 @@ namespace AgendaApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateContact(UpdateContactDto dto, int id)
+        public IActionResult UpdateContact(int id, UpdateContactDto dto)
         {
             try
             {
