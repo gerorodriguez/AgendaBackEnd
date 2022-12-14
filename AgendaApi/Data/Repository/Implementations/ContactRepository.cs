@@ -40,9 +40,17 @@ namespace AgendaApi.Data.Repository.Implementations
             _context.SaveChanges();
         }
 
-        public void Update(UpdateContactDto dto)
+        public void Update(Contact contact)
         {
-            _context.Contacts.Update(_mapper.Map<Contact>(dto));
+            // var contactUpdate = _mapper.Map<Contact>(dto);
+            _context.Contacts.Update(contact);
+            
+            // _context.Contacts.Update(_mapper.Map<Contact>(dto));
+            
+            _context.ChangeTracker.DetectChanges();
+            Console.WriteLine(_context.ChangeTracker.DebugView.LongView);
+
+            
             _context.SaveChanges();
         }
 
@@ -50,6 +58,11 @@ namespace AgendaApi.Data.Repository.Implementations
         {
             _context.Contacts.Remove(_context.Contacts.Single(c => c.Id == id));
             _context.SaveChanges();
+        }
+
+        public bool IsExistsContact(int id)
+        {
+            return (_context.Contacts.Any(c => c.Id.Equals(id)));
         }
     }
     

@@ -11,8 +11,10 @@ namespace AgendaApi.Data.Repository.Interfaces
 
         public List<Contact> FindAllByUser(int userId);
         public void Create(CreateContactDto dto, int userId);
-        public void Update(UpdateContactDto dto);
+        public void Update(Contact contact);
         public void Delete(int id);
+
+        public bool IsExistsContact(int id);
 
     }
 }

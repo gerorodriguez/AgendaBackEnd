@@ -1,7 +1,9 @@
 ﻿using System.Security.Claims;
 using AgendaApi.Data.Repository.Interfaces;
+using AgendaApi.Entities;
 using AgendaApi.Models;
 using AgendaApi.Models.DTOs;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,9 +16,12 @@ namespace AgendaApi.Controllers
     {
         private readonly IContactRepository _contactRepository;
         
-        public ContactController(IContactRepository contactRepository)
+        private readonly IMapper _mapper;
+        
+        public ContactController(IContactRepository contactRepository, IMapper autoMapper)
         {
             _contactRepository = contactRepository;
+            _mapper = autoMapper;
         }
         
         [HttpGet]
@@ -65,19 +70,32 @@ namespace AgendaApi.Controllers
         {
             try
             {
-                var contactToUpdate = _contactRepository.GetById(id);
 
-                if (contactToUpdate is null)
+                if (!dto.Id.Equals(id))
                 {
-                    return NotFound($"Contact with Id = {id} not found");
+                    return BadRequest();
                 }
+                
 
-                _contactRepository.Update(dto);
-                return Ok("Updated");
+                if (!(_contactRepository.IsExistsContact(id)))
+                {
+                    return NotFound();
+                }
+                
+                var contact = _mapper.Map<Contact>(dto);
+                
+                var currentUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+                contact.UserId = currentUserId;
+
+                _contactRepository.Update(contact);
+
+                return NoContent();
+
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
 
