@@ -60,18 +60,25 @@ namespace AgendaApi.Controllers
             return Created("Created", createContactDto);
         }
 
-        [HttpPut]
-        public IActionResult UpdateContact(UpdateContactDto dto)
+        [HttpPut("{id}")]
+        public IActionResult UpdateContact(UpdateContactDto dto, int id)
         {
             try
             {
+                var contactToUpdate = _contactRepository.GetById(id);
+
+                if (contactToUpdate is null)
+                {
+                    return NotFound($"Contact with Id = {id} not found");
+                }
+
                 _contactRepository.Update(dto);
+                return Ok("Updated");
             }
             catch (Exception ex)
             {
                 return BadRequest(ex);
             }
-            return NoContent();
         }
 
         [HttpDelete("{id:int}")]
