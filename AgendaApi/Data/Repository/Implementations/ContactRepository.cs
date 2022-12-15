@@ -42,15 +42,7 @@ namespace AgendaApi.Data.Repository.Implementations
 
         public void Update(Contact contact)
         {
-            // var contactUpdate = _mapper.Map<Contact>(dto);
             _context.Contacts.Update(contact);
-            
-            // _context.Contacts.Update(_mapper.Map<Contact>(dto));
-            
-            _context.ChangeTracker.DetectChanges();
-            Console.WriteLine(_context.ChangeTracker.DebugView.LongView);
-
-            
             _context.SaveChanges();
         }
 
