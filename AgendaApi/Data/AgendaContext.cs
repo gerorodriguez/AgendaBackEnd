@@ -7,6 +7,8 @@ namespace AgendaApi.Data
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        
+        public DbSet<ContactsBook> ContactsBooks { get; set; }
 
         public AgendaContext(DbContextOptions<AgendaContext> options) : base(options) 
         {
@@ -14,6 +16,7 @@ namespace AgendaApi.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             User karen = new User()
             {
                 Id = 1,
