@@ -16,7 +16,7 @@ public class User
     public string Email { get; set; }
     [Required]
     public string Password { get; set; }
-    public ICollection<Contact> Contacts {get; set;}
+    public ICollection<Contact> Contacts {get; set; }
     
-    public ICollection<ContactsBook> ContactsBooks { get; set; }
+    public ICollection<ContactsBook> ContactsBooks { get; set; }    
 }

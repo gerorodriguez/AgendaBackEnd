@@ -12,4 +12,6 @@ public class ContactsBook
     
     public ICollection<User> Users { get; set; }
     
+    public ICollection<Contact> Contacts { get; set; }
+
 }
