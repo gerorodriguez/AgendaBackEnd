@@ -120,8 +120,10 @@ namespace AgendaApi.Controllers
                 var contact = _mapper.Map<Contact>(dto);
                 
                 _contactRepository.Update(contact);
+
+                var updatedContact = _contactRepository.GetById(id);
         
-                return NoContent();
+                return Ok(updatedContact);
         
             }
             catch (Exception ex)
