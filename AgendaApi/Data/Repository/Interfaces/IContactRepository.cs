@@ -16,7 +16,7 @@ namespace AgendaApi.Data.Repository.Interfaces
         public void Update(Contact contact);
         public void Delete(int id);
 
-        // public bool IsExistsContact(int id);
+        public bool IsExistsContact(int id);
 
     }
 }

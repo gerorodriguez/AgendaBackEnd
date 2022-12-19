@@ -100,39 +100,36 @@ namespace AgendaApi.Controllers
         }
 
         
-        //[HttpPut("{id}")]
-        //public IActionResult UpdateContact(int id, UpdateContactDto dto)
-        //{
-        //    try
-        //    {
+        [HttpPut("{id}")]
+        public IActionResult UpdateContact(int id, UpdateContactDto dto)
+        {
+            try
+            {
         
-        //        if (!dto.Id.Equals(id))
-        //        {
-        //            return BadRequest();
-        //        }
+                if (!dto.Id.Equals(id))
+                {
+                    return BadRequest();
+                }
+
+                if (!(_contactRepository.IsExistsContact(id)))
+                {
+                    return NotFound();
+                }
                 
-        
-        //        if (!(_contactRepository.IsExistsContact(id)))
-        //        {
-        //            return NotFound();
-        //        }
+                var contact = _mapper.Map<Contact>(dto);
                 
-        //        var contact = _mapper.Map<Contact>(dto);
-                
-        //        var currentUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                _contactRepository.Update(contact);
+
+                var updatedContact = _contactRepository.GetById(id);
         
-        //        contact.UserId = currentUserId;
+                return Ok(_mapper.Map<ContactDto>(updatedContact));
         
-        //        _contactRepository.Update(contact);
-        
-        //        return NoContent();
-        
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpDelete("{id:int}")]
         public IActionResult DeleteContactById (int id)
