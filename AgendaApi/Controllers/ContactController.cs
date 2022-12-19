@@ -123,7 +123,7 @@ namespace AgendaApi.Controllers
 
                 var updatedContact = _contactRepository.GetById(id);
         
-                return Ok(updatedContact);
+                return Ok(_mapper.Map<ContactDto>(updatedContact));
         
             }
             catch (Exception ex)
