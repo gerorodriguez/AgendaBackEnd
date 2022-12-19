@@ -47,25 +47,23 @@ namespace AgendaApi.Controllers
             }
         }
 
-        [HttpGet]
-        [Authorize]
-        [Route("all")]
-        public IActionResult GetAllByUser()
-        {
-            var currentUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            var contacts = _contactRepository.FindAllByUser(currentUserId);
-            return Ok(contacts);
-        }
+        //[HttpGet]
+        //[Authorize]
+        //[Route("all")]
+        //public IActionResult GetAllByUser()
+        //{
+        //    var currentUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        //    var contacts = _contactRepository.FindAllByUser(currentUserId);
+        //    return Ok(contacts);
+        //}
         
         
         [HttpPost]
         public IActionResult CreateContact(CreateContactDto createContactDto)
-        {
-            var currentUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-           
+        {  
             try
             {
-                _contactRepository.Create(createContactDto,currentUserId);
+                _contactRepository.Create(createContactDto);
             }
             catch (Exception ex)
             {
@@ -102,39 +100,39 @@ namespace AgendaApi.Controllers
         }
 
         
-        [HttpPut("{id}")]
-        public IActionResult UpdateContact(int id, UpdateContactDto dto)
-        {
-            try
-            {
+        //[HttpPut("{id}")]
+        //public IActionResult UpdateContact(int id, UpdateContactDto dto)
+        //{
+        //    try
+        //    {
         
-                if (!dto.Id.Equals(id))
-                {
-                    return BadRequest();
-                }
+        //        if (!dto.Id.Equals(id))
+        //        {
+        //            return BadRequest();
+        //        }
                 
         
-                if (!(_contactRepository.IsExistsContact(id)))
-                {
-                    return NotFound();
-                }
+        //        if (!(_contactRepository.IsExistsContact(id)))
+        //        {
+        //            return NotFound();
+        //        }
                 
-                var contact = _mapper.Map<Contact>(dto);
+        //        var contact = _mapper.Map<Contact>(dto);
                 
-                var currentUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        //        var currentUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         
-                contact.UserId = currentUserId;
+        //        contact.UserId = currentUserId;
         
-                _contactRepository.Update(contact);
+        //        _contactRepository.Update(contact);
         
-                return NoContent();
+        //        return NoContent();
         
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
         [HttpDelete("{id:int}")]
         public IActionResult DeleteContactById (int id)
