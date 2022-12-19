@@ -3,6 +3,7 @@ using AgendaApi.Data;
 using AgendaApi.Data.Repository;
 using AgendaApi.Data.Repository.Implementations;
 using AgendaApi.Data.Repository.Interfaces;
+using AgendaApi.Entities;
 using AgendaApi.Profiles;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -42,7 +43,7 @@ builder.Services.AddSwaggerGen(setupAction =>
     {
         Type = SecuritySchemeType.Http,
         Scheme = "Bearer",
-        Description = "Acá pegar el token generado al loguearse."
+        Description = "Acï¿½ pegar el token generado al loguearse."
     });
 
     setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -53,7 +54,7 @@ builder.Services.AddSwaggerGen(setupAction =>
                 Reference = new OpenApiReference
                 {
                     Type = ReferenceType.SecurityScheme,
-                    Id = "ConsultaAlumnosApiBearerAuth" } //Tiene que coincidir con el id seteado arriba en la definición
+                    Id = "ConsultaAlumnosApiBearerAuth" } //Tiene que coincidir con el id seteado arriba en la definiciï¿½n
                 }, new List<string>() }
     });
 });
@@ -65,6 +66,8 @@ var config = new MapperConfiguration(cfg =>
 {
     cfg.AddProfile(new ContactCreateProfile());
     cfg.AddProfile(new ContactUpdateProfile());
+    cfg.AddProfile(new ContactsBookProfile());
+    cfg.AddProfile(new ContactProfile());
 });
 var mapper = config.CreateMapper();
 
@@ -72,6 +75,7 @@ var mapper = config.CreateMapper();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
+builder.Services.AddScoped<IContactsBookRepository, ContactsBookRepository>();
 
 #endregion
 

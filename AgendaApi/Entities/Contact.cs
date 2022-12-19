@@ -16,7 +16,4 @@ public class Contact
     public ContactsBook ContactsBook { get; set; }
     
     public int? ContactsBookId { get; set; }
-    public User User { get; set; }
-    [ForeignKey("UserId")]
-    public int UserId { get; set; }
 }

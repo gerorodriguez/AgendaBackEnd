@@ -8,7 +8,7 @@ public class ContactsBook
     
     public string Name { get; set; } = String.Empty;
     
-    public int Code { get; set; }
+    public long Code { get; set; }
     
     public ICollection<User> Users { get; set; }
     

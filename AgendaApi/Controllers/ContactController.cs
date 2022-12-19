@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using AgendaApi.Data.Repository.Interfaces;
 using AgendaApi.Entities;
+using AgendaApi.Exceptions;
 using AgendaApi.Models;
 using AgendaApi.Models.DTOs;
 using AutoMapper;
@@ -15,26 +16,34 @@ namespace AgendaApi.Controllers
     public class ContactController : ControllerBase
     {
         private readonly IContactRepository _contactRepository;
-        
+
+        private readonly IContactsBookRepository _contactsBookRepository;
+
         private readonly IMapper _mapper;
-        
-        public ContactController(IContactRepository contactRepository, IMapper autoMapper)
+
+        public ContactController(IContactRepository contactRepository, IContactsBookRepository contactsBookRepository,
+            IMapper autoMapper)
         {
             _contactRepository = contactRepository;
+            _contactsBookRepository = contactsBookRepository;
             _mapper = autoMapper;
         }
-        
+
         [HttpGet]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public IActionResult GetById(int id)
         {
             try
             {
                 return Ok(_contactRepository.GetById(id));
             }
-            catch
+            catch (NotFoundException notFoundException)
             {
-                return NotFound("Contacto no existente");
+                return NotFound($"Contact with id {id} not found");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
 
@@ -47,8 +56,8 @@ namespace AgendaApi.Controllers
             var contacts = _contactRepository.FindAllByUser(currentUserId);
             return Ok(contacts);
         }
-
-
+        
+        
         [HttpPost]
         public IActionResult CreateContact(CreateContactDto createContactDto)
         {
@@ -65,18 +74,46 @@ namespace AgendaApi.Controllers
             return Created("Created", createContactDto);
         }
 
+
+        [HttpGet("ContactsBook/{contactsBookId:int}")]
+        public IActionResult GetContactsByContactsBookId(int contactsBookId)
+        {
+            try
+            {
+                var currentUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+                bool isHaveAccess = _contactsBookRepository.IsHaveAccess(currentUserId, contactsBookId);
+
+                if (!isHaveAccess)
+                {
+                    return Unauthorized();
+                }
+
+                var contacts = _contactRepository.GetContactsByContactsBookId(contactsBookId);
+
+                return Ok(contacts.Count == 0
+                    ? new List<ContactDto>()
+                    : _mapper.Map<ICollection<Contact>, ICollection<ContactDto>>(contacts));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        
         [HttpPut("{id}")]
         public IActionResult UpdateContact(int id, UpdateContactDto dto)
         {
             try
             {
-
+        
                 if (!dto.Id.Equals(id))
                 {
                     return BadRequest();
                 }
                 
-
+        
                 if (!(_contactRepository.IsExistsContact(id)))
                 {
                     return NotFound();
@@ -85,13 +122,13 @@ namespace AgendaApi.Controllers
                 var contact = _mapper.Map<Contact>(dto);
                 
                 var currentUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-
+        
                 contact.UserId = currentUserId;
-
+        
                 _contactRepository.Update(contact);
-
+        
                 return NoContent();
-
+        
             }
             catch (Exception ex)
             {
@@ -105,7 +142,7 @@ namespace AgendaApi.Controllers
             try
             {
                 var contactToDelete =  _contactRepository.GetById(id);
-
+        
                 if (contactToDelete == null)
                 {
                     return NotFound($"Contact with Id = {id} not found");
@@ -118,9 +155,5 @@ namespace AgendaApi.Controllers
                 return BadRequest(ex);
             }
         }
-
-
-
-
     }
 }
