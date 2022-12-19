@@ -62,9 +62,9 @@ namespace AgendaApi.Data.Repository.Implementations
             _context.SaveChanges();
         }
 
-        // public bool IsExistsContact(int id)
-        // {
-        //     return (_context.Contacts.Any(c => c.Id.Equals(id)));
-        // }
+        public bool IsExistsContact(int id)
+        {
+            return (_context.Contacts.Any(c => c.Id.Equals(id)));
+        }
     }
 }

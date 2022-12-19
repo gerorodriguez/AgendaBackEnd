@@ -47,33 +47,32 @@ namespace AgendaApi.Controllers
             }
         }
 
-        [HttpGet]
-        [Authorize]
-        [Route("all")]
-        public IActionResult GetAllByUser()
-        {
-            var currentUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            var contacts = _contactRepository.FindAllByUser(currentUserId);
-            return Ok(contacts);
-        }
-        
-        
-        [HttpPost]
-        public IActionResult CreateContact(CreateContactDto createContactDto)
-        {
-            var currentUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-           
-            try
-            {
-                _contactRepository.Create(createContactDto,currentUserId);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            return Created("Created", createContactDto);
-        }
-
+        // [HttpGet]
+        // [Authorize]
+        // [Route("all")]
+        // public IActionResult GetAllByUser()
+        // {
+        //     var currentUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        //     var contacts = _contactRepository.FindAllByUser(currentUserId);
+        //     return Ok(contacts);
+        // }
+        //
+        //
+        // [HttpPost]
+        // public IActionResult CreateContact(CreateContactDto createContactDto)
+        // {
+        //     var currentUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        //    
+        //     try
+        //     {
+        //         _contactRepository.Create(createContactDto,currentUserId);
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         return BadRequest(ex.Message);
+        //     }
+        //     return Created("Created", createContactDto);
+        // }
 
         [HttpGet("ContactsBook/{contactsBookId:int}")]
         public IActionResult GetContactsByContactsBookId(int contactsBookId)
@@ -112,8 +111,7 @@ namespace AgendaApi.Controllers
                 {
                     return BadRequest();
                 }
-                
-        
+
                 if (!(_contactRepository.IsExistsContact(id)))
                 {
                     return NotFound();
@@ -121,10 +119,6 @@ namespace AgendaApi.Controllers
                 
                 var contact = _mapper.Map<Contact>(dto);
                 
-                var currentUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-        
-                contact.UserId = currentUserId;
-        
                 _contactRepository.Update(contact);
         
                 return NoContent();
