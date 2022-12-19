@@ -1,4 +1,5 @@
-﻿using AgendaApi.Data.Repository.Interfaces;
+﻿using System.Security.Claims;
+using AgendaApi.Data.Repository.Interfaces;
 using AgendaApi.Entities;
 using AgendaApi.Exceptions;
 using AgendaApi.Models.DTOs;
@@ -44,9 +45,15 @@ public class ContactsBookController : ControllerBase
     {
         try
         {
+            var currentUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             if (userId == null)
             {
                 return BadRequest("User id not found");
+            }
+
+            if (userId != currentUserId)
+            {
+                return Forbid();
             }
 
             var contactsBooks = _contactsBookRepository.GetContactsBooksByUserId(userId);
