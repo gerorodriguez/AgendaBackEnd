@@ -8,5 +8,6 @@ namespace AgendaApi.Data.Repository.Interfaces
     {
         public void CreateUser(UserForCreationDto userDto);
         public User? ValidateUser(AuthenticationRequestBody authRequestBody);
+        public int GetLastUserId();
     }
 }

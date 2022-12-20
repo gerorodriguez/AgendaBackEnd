@@ -1,5 +1,6 @@
 ﻿using AgendaApi.Data.Repository.Interfaces;
 using AgendaApi.Entities;
+using AgendaApi.Exceptions;
 using AgendaApi.Models;
 using AgendaApi.Models.DTOs;
 
@@ -25,6 +26,13 @@ namespace AgendaApi.Data.Repository.Implementations
             user.LastName = userDTO.LastName;
             _context.Add(user);
             _context.SaveChanges();
+        }
+
+        public int GetLastUserId()
+        {
+            return _context.Users.OrderByDescending(u => u.Id)
+                .Select(u => u.Id)
+                .FirstOrDefault();
         }
 
         public User? ValidateUser(AuthenticationRequestBody authRequestBody)

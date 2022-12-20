@@ -50,7 +50,10 @@ public class ContactsBookRepository : IContactsBookRepository
 
     public void SaveContactsBook(ContactsBook contactsBook, int userId)
     {
-       
+        if (contactsBook.Name.Length == 0)
+        {
+            contactsBook.Name = "Mi Agenda";
+        }
         contactsBook.Code =  DateTime.UtcNow.Ticks;
         var currentUser = _context.Users.FirstOrDefault(cu => cu.Id == userId);
         if (currentUser == null)
