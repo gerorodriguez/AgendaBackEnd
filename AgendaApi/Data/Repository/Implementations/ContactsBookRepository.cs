@@ -52,7 +52,7 @@ public class ContactsBookRepository : IContactsBookRepository
     {
        
         contactsBook.Code =  DateTime.UtcNow.Ticks;
-        var currentUser = _context.Users.Find(userId);
+        var currentUser = _context.Users.FirstOrDefault(cu => cu.Id == userId);
         if (currentUser == null)
         {
             throw new NotFoundException();
@@ -68,7 +68,7 @@ public class ContactsBookRepository : IContactsBookRepository
         ContactsBook contactsBook = _context.ContactsBooks.Include(cb => cb.Users).FirstOrDefault(cb => cb.Code == code) ??
                                     throw new NotFoundException();
         
-        User newOwner = _context.Users.Find(userId);
+        User newOwner = _context.Users.FirstOrDefault(u => u.Id == userId);
 
         // Verifico si el usuario ya esta en la agenda Compartida si esta termino la ejecucion
         // Si no hago el update correspondiente
@@ -87,7 +87,7 @@ public class ContactsBookRepository : IContactsBookRepository
 
     public void updateNameContactsBook(int contactsBookId, string name)
     {
-        ContactsBook contactsBook = _context.ContactsBooks.Find(contactsBookId) ?? throw new NotFoundException();
+        ContactsBook contactsBook = _context.ContactsBooks.FirstOrDefault(cb => cb.Id == contactsBookId) ?? throw new NotFoundException();
 
         contactsBook.Name = name;
 
