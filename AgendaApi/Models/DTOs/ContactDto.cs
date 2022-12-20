@@ -7,4 +7,5 @@ public class ContactDto
     public long? CellPhoneNumber { get; set; }
     public long? TelephoneNumber { get; set; }
     public string? Description { get; set; }
+    public int? ContactsBookId { get; set; }
 }

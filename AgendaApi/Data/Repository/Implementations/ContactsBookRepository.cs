@@ -47,4 +47,41 @@ public class ContactsBookRepository : IContactsBookRepository
         return userExists;
 
     }
+
+    public void SaveContactsBook(ContactsBook contactsBook, int userId)
+    {
+       
+        contactsBook.Code =  DateTime.UtcNow.Ticks;
+        var currentUser = _context.Users.Find(userId);
+        if (currentUser == null)
+        {
+            throw new NotFoundException();
+        };
+        contactsBook.Users.Add(currentUser);
+        _context.ContactsBooks.Add(contactsBook);
+        _context.SaveChanges();
+    }
+
+    public void AddUserInContactsBook(long code, int userId)
+    {
+
+        ContactsBook contactsBook = _context.ContactsBooks.Include(cb => cb.Users).FirstOrDefault(cb => cb.Code == code) ??
+                                    throw new NotFoundException();
+        
+        User newOwner = _context.Users.Find(userId);
+
+        // Verifico si el usuario ya esta en la agenda Compartida si esta termino la ejecucion
+        // Si no hago el update correspondiente
+        
+        bool isNewOwnerInContactsBook = contactsBook.Users.Contains(newOwner);
+
+        if (isNewOwnerInContactsBook)
+        {
+            return;
+        }
+        
+        contactsBook.Users.Add(newOwner);
+        _context.ContactsBooks.Update(contactsBook);
+        _context.SaveChanges();
+    }
 }

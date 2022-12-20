@@ -57,7 +57,6 @@ namespace AgendaApi.Controllers
         //    return Ok(contacts);
         //}
         
-        
         [HttpPost]
         public IActionResult CreateContact(CreateContactDto createContactDto)
         {  
@@ -98,7 +97,6 @@ namespace AgendaApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
         
         [HttpPut("{id}")]
         public IActionResult UpdateContact(int id, UpdateContactDto dto)

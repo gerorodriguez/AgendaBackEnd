@@ -12,6 +12,8 @@ public class ContactsBookProfile : Profile
     {
         CreateMap<ContactsBook, ContactsBookDto>().ReverseMap();
         CreateMap<ContactsBook, ContactsBookDto>();
+        CreateMap<ContactsBook, CreateContactsBookDto>();
+        CreateMap<ContactsBook, CreateContactsBookDto>().ReverseMap();
     }
 
 }

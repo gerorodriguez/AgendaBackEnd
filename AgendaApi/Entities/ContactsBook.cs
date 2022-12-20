@@ -4,12 +4,18 @@ namespace AgendaApi.Entities;
 
 public class ContactsBook
 {
+
+    public ContactsBook()
+    {
+        this.Users = new List<User>();
+    }
+    
     public int Id { get; set; }
     
     public string Name { get; set; } = String.Empty;
     
     public long Code { get; set; }
-    
+
     public ICollection<User> Users { get; set; }
     
     public ICollection<Contact> Contacts { get; set; }

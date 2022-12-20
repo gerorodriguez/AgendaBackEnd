@@ -40,23 +40,23 @@ public class ContactsBookController : ControllerBase
         }
     }
     
-    [HttpGet("user/{userId:int}")]
-    public IActionResult GetContactsBooksByUserId(int userId)
+    [HttpGet]
+    public IActionResult GetContactsBooksByUserId()
     {
         try
         {
             var currentUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            if (userId == null)
-            {
-                return BadRequest("User id not found");
-            }
+            // if (userId == null)
+            // {
+            //     return Unauthorized();
+            // }
 
-            if (userId != currentUserId)
-            {
-                return Forbid();
-            }
+            // if (userId != currentUserId)
+            // {
+            //     return Forbid();
+            // }
 
-            var contactsBooks = _contactsBookRepository.GetContactsBooksByUserId(userId);
+            var contactsBooks = _contactsBookRepository.GetContactsBooksByUserId(currentUserId);
 
             if (contactsBooks.Count == 0)
             {
@@ -71,5 +71,55 @@ public class ContactsBookController : ControllerBase
         {
             return BadRequest();
         }
+    }
+
+    // Por request param "url"?code=14353225
+    [HttpPut("share")]
+    public IActionResult AddUserInContactsBook(long code)
+    {
+        try
+        {
+            var currentUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+            if (currentUserId == null)
+            {
+                return Unauthorized();
+            }
+
+            _contactsBookRepository.AddUserInContactsBook(code, currentUserId);
+
+            return Ok();
+
+        }
+        
+        catch (NotFoundException ex)
+        {
+            return NotFound($"Contacts book with code = {code} not exists");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost]
+    public IActionResult CreateContactsBook(CreateContactsBookDto createContactsBookDto)
+    {
+        try
+        {
+            var currentUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+            var contactsBook = _mapper.Map<ContactsBook>(createContactsBookDto);
+
+            _contactsBookRepository.SaveContactsBook(contactsBook, currentUserId);
+
+            return Ok();
+        }
+
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+       
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AgendaApi.Entities;
+using AgendaApi.Models.DTOs;
 
 namespace AgendaApi.Data.Repository.Interfaces;
 
@@ -11,5 +12,9 @@ public interface IContactsBookRepository
     public void DeleteContactsBookById(int contactsBookId);
 
     public bool IsHaveAccess(int userId, int contactsBookId);
+
+    public void SaveContactsBook(ContactsBook contactsBook, int userId);
+
+    public void AddUserInContactsBook(long code, int userId);
 
 }

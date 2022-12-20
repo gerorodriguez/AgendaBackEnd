@@ -5,6 +5,12 @@ namespace AgendaApi.Entities;
 
 public class User
 {
+
+    public User()
+    {
+        this.ContactsBooks = new List<ContactsBook>();
+    }
+    
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
@@ -17,5 +23,5 @@ public class User
     [Required]
     public string Password { get; set; }
 
-    public ICollection<ContactsBook> ContactsBooks { get; set; }    
+    public ICollection<ContactsBook> ContactsBooks { get; set; } = new List<ContactsBook>();
 }
