@@ -17,4 +17,6 @@ public interface IContactsBookRepository
 
     public void AddUserInContactsBook(long code, int userId);
 
+    public void updateNameContactsBook(int contactsBookId, string name);
+
 }

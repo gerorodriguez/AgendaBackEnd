@@ -73,6 +73,25 @@ public class ContactsBookController : ControllerBase
         }
     }
 
+    
+    [HttpPut]
+    public IActionResult updateNameContactsBook(int contactsBookId, string name)
+    {
+        try
+        {
+            _contactsBookRepository.updateNameContactsBook(contactsBookId, name);
+            return Ok();
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound($"ContactsBook with Id = {contactsBookId} not found");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
     // Por request param "url"?code=14353225
     [HttpPut("share")]
     public IActionResult AddUserInContactsBook(long code)

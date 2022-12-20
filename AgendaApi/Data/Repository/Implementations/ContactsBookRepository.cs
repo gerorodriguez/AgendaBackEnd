@@ -84,4 +84,13 @@ public class ContactsBookRepository : IContactsBookRepository
         _context.ContactsBooks.Update(contactsBook);
         _context.SaveChanges();
     }
+
+    public void updateNameContactsBook(int contactsBookId, string name)
+    {
+        ContactsBook contactsBook = _context.ContactsBooks.Find(contactsBookId) ?? throw new NotFoundException();
+
+        contactsBook.Name = name;
+
+        _context.ContactsBooks.Update(contactsBook);
+    }
 }
